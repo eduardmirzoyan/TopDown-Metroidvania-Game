@@ -1,4 +1,4 @@
-package Game;
+package game;
 
 import java.awt.Point;
 import processing.core.*;
@@ -31,7 +31,8 @@ public class Game extends PApplet {
 			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
 	private String[][] location = new String[gameSize][gameSize];
-	private Point currentLoc;
+	Player player;
+	//private Point player;
 	private boolean hasKey = false;
 	private String message;
 	
@@ -56,12 +57,15 @@ public class Game extends PApplet {
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
+		
+		
 		message = "Welcome to the alpha of my game, use arrow keys to move and space to interact";
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				location[j][i] = "EMPTY";
 				if(map[j][i].equals("X")) {
-					currentLoc = new Point(i, j);
+					player = new Player(i, j);
+					//player.relocate(i, j);
 					location[j][i] = "PLAYER";
 				}
 			}
@@ -70,51 +74,51 @@ public class Game extends PApplet {
 		
 	}
 	
-	private Point clickToIndex(Point p, float x, float y) {
-		p = new Point((int) (p.getX() - 700), (int) (p.getY()));
-		if (p.getX() > cellSize * gameSize || p.getY() > cellSize * gameSize || p.getX() < 0 || p.getY() < 0) {
-			return null;
-		}
-
-		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX() + x) / cellSize));
-	}
+//	private Point clickToIndex(Point p, float x, float y) {
+//		p = new Point((int) (p.getX() - 700), (int) (p.getY()));
+//		if (p.getX() > cellSize * gameSize || p.getY() > cellSize * gameSize || p.getX() < 0 || p.getY() < 0) {
+//			return null;
+//		}s
+//
+//		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX() + x) / cellSize));
+//	}
 
 	public void mousePressed() {
 		
 	}
 	
 	public void keyPressed() {
-		int previousX = (int) currentLoc.getX();
-		int previousY = (int) currentLoc.getY();
+		int previousX = (int) player.getX();
+		int previousY = (int) player.getY();
 		
 		if(keyCode == 32) {
-			if(map[(int) currentLoc.getY()][(int) currentLoc.getX()].equals("#")) {
+			if(map[(int) player.getY()][(int) player.getX()].equals("#")) {
 				message = "You've escaped!";
 			}
-			if(map[(int) currentLoc.getY()][(int) currentLoc.getX()].equals("@")) {
+			if(map[(int) player.getY()][(int) player.getX()].equals("@")) {
 				hasKey = true;
 				message = "You've grabbed a key!";
-				map[(int) currentLoc.getY()][(int) currentLoc.getX()] = "*";
+				map[(int) player.getY()][(int) player.getX()] = "*";
 			}
 		}
 		
-		if (keyCode == UP && currentLoc.getY() - 1 >= 0 && !map[(int) currentLoc.getY() - 1][(int) currentLoc.getX()].equals("W")) {
-				currentLoc = new Point((int) currentLoc.getX(), (int) currentLoc.getY() - 1);
+		if (keyCode == UP && player.getY() - 1 >= 0 && !map[(int) player.getY() - 1][(int) player.getX()].equals("W")) {
+				player.relocate((int) player.getX(), (int) player.getY() - 1);
 				relocate(previousX, previousY);
 		}
-		if (keyCode == LEFT && currentLoc.getX() - 1 >= 0 && !map[(int) currentLoc.getY()][(int) currentLoc.getX() - 1].equals("W")) {
-			currentLoc = new Point((int) currentLoc.getX() - 1, (int) currentLoc.getY());
+		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[(int) player.getY()][(int) player.getX() - 1].equals("W")) {
+			player.relocate((int) player.getX() - 1, (int) player.getY());
 			relocate(previousX, previousY);
 		}
-		if (keyCode == DOWN && currentLoc.getY() + 1 < gameSize && !map[(int) currentLoc.getY() + 1][(int) currentLoc.getX()].equals("W")) {
-			currentLoc = new Point((int) currentLoc.getX(), (int) currentLoc.getY() + 1);
+		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[(int) player.getY() + 1][(int) player.getX()].equals("W")) {
+			player.relocate((int) player.getX(), (int) player.getY() + 1);
 			relocate(previousX, previousY);
 		}
-		if (keyCode == RIGHT && currentLoc.getX() + 1 < gameSize && !map[(int) currentLoc.getY()][(int) currentLoc.getX() + 1].equals("W")) {
-			if((map[(int) currentLoc.getY()][(int) currentLoc.getX() + 1].equals("&") && !hasKey)) {
+		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[(int) player.getY()][(int) player.getX() + 1].equals("W")) {
+			if((map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !hasKey)) {
 				message = "You need a key!";
 			} else {
-				currentLoc = new Point((int) currentLoc.getX() + 1, (int) currentLoc.getY());
+				player.relocate((int) player.getX() + 1, (int) player.getY());
 				relocate(previousX, previousY);
 			}
 			
@@ -128,7 +132,7 @@ public class Game extends PApplet {
 	 * @param y y value of previous location
 	 */
 	private void relocate(int x, int y) {
-		location[(int) currentLoc.getY()][(int) currentLoc.getX()] = "PLAYER";
+		location[(int) player.getY()][(int) player.getX()] = "PLAYER";
 		location[y][x] = "EMPTY";
 	}
 	
