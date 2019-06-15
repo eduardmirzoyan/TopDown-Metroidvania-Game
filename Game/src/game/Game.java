@@ -1,5 +1,7 @@
 package game;
-
+/**
+ * @version 0.4
+ */
 import java.awt.Point;
 import processing.core.*;
 
@@ -10,29 +12,32 @@ public class Game extends PApplet {
 
 	//IMPORTANT currentLoc is in x,y form while grid is y,x form
 	
-	private String[][] map = {
-			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "&", "*", "*", "*", "*", "*", "*", "#", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-			{"W", "W", "W", "W", "W", "W", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "@", "*", "W"},
-			{"W", "X", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-		};
+//	private String[][] map = {
+//			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "*", "*", "&", "*", "*", "*", "*", "*", "*", "#", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+//			{"W", "W", "W", "W", "W", "W", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "@", "*", "W"},
+//			{"W", "X", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+//			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+//		};
+	
+	private String[][] map;
 	private String[][] location = new String[gameSize][gameSize];
 	Player player;
-	//private Point player;
+	Rooms rooms;
+	
 	private boolean hasKey = false;
 	private String message;
 	
@@ -57,7 +62,8 @@ public class Game extends PApplet {
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
-		
+		rooms = new Rooms();
+		map = rooms.getRoom(0);
 		
 		message = "Welcome to the alpha of my game, use arrow keys to move and space to interact";
 		for (int i = 0; i < gameSize; i++) {
@@ -91,6 +97,13 @@ public class Game extends PApplet {
 		int previousX = (int) player.getX();
 		int previousY = (int) player.getY();
 		
+		if(keyCode == SHIFT) {
+			map = rooms.getRoom(1);
+		}
+		if(keyCode == CONTROL) {
+			map = rooms.getRoom(0);
+		}
+		
 		if(keyCode == 32) {
 			if(map[(int) player.getY()][(int) player.getX()].equals("#")) {
 				message = "You've escaped!";
@@ -107,6 +120,10 @@ public class Game extends PApplet {
 				relocate(previousX, previousY);
 		}
 		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[(int) player.getY()][(int) player.getX() - 1].equals("W")) {
+			if((int) player.getY() == 9 && (int) player.getX() - 1 == 0) {
+				player.relocate(17, 9);
+				map = rooms.getRoom(1);
+			}
 			player.relocate((int) player.getX() - 1, (int) player.getY());
 			relocate(previousX, previousY);
 		}
@@ -115,6 +132,10 @@ public class Game extends PApplet {
 			relocate(previousX, previousY);
 		}
 		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[(int) player.getY()][(int) player.getX() + 1].equals("W")) {
+			if((int) player.getY() == 9 && (int) player.getX() + 1 == 17) {
+				player.relocate(0, 9);
+				map = rooms.getRoom(0);
+			}
 			if((map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !hasKey)) {
 				message = "You need a key!";
 			} else {
@@ -145,9 +166,9 @@ public class Game extends PApplet {
 		
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
-				//Draws side stuff
+				//Draws inventory and map stuff
 				
-				
+
 				//Draws map
 				fill(200);
 				if(map[j][i].equals("W")) {
