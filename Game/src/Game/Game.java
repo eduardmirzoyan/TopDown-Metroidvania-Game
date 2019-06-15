@@ -1,9 +1,7 @@
 package Game;
 
 import java.awt.Point;
-
-import processing.core.PApplet;
-import processing.core.PImage;
+import processing.core.*;
 
 public class Game extends PApplet {
 	
@@ -41,18 +39,22 @@ public class Game extends PApplet {
 	PImage stairs;
 	PImage door;
 	PImage key;
+	PImage icon;
 	
-	public static void main(String[] args) {
-		PApplet.main("Game");
-	}
-	
-	public Game() {
-		
-	}
-	
+	public void settings(){
+		size(1600,900);
+	 }
+
 	//Always runs after any constructor
 	//Make sure every gridspace isnt null
 	public void setup() {
+		stairs = loadImage("images/stairs.png");
+		door = loadImage("images/door.png");
+		key = loadImage("images/key.png");
+		icon = loadImage("images/icon.png");
+		
+		surface.setTitle("Dungeon");
+		surface.setIcon(icon);
 		
 		message = "Welcome to the alpha of my game, use arrow keys to move and space to interact";
 		for (int i = 0; i < gameSize; i++) {
@@ -65,9 +67,7 @@ public class Game extends PApplet {
 			}
 		}
 		ellipseMode(CORNER);
-		stairs = loadImage("images/stairs.png");
-		door = loadImage("images/door.png");
-		key = loadImage("images/key.png");
+		
 	}
 	
 	private Point clickToIndex(Point p, float x, float y) {
@@ -75,10 +75,10 @@ public class Game extends PApplet {
 		if (p.getX() > cellSize * gameSize || p.getY() > cellSize * gameSize || p.getX() < 0 || p.getY() < 0) {
 			return null;
 		}
-		
-		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX()  + x) / cellSize));
+
+		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX() + x) / cellSize));
 	}
-	
+
 	public void mousePressed() {
 		
 	}
