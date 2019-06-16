@@ -27,6 +27,10 @@ public class Player {
 		return location.getY();
 	}
 	
+	public void setLocation(Point p) {
+		location = p;
+	}
+	
 	public Point getLocation() {
 		return location;
 	}

@@ -36,12 +36,20 @@ public class Game extends PApplet {
 	private String[][] map;
 	private String[][] location = new String[gameSize][gameSize];
 	Player player;
-	Rooms rooms;
+	//Room rooms;
+	
+	private MiddleMiddle room1 = new MiddleMiddle();
+	private MiddleLeft room2 = new MiddleLeft();
+	private MiddleRight room3 = new MiddleRight();
+	private TopMiddle room4 = new TopMiddle();
+	private BottomMiddle room5 = new BottomMiddle();
+	
+	private Room currentRoom;
 	
 	private boolean hasKey = false;
 	private String message;
 	
-	//Sprites
+	//Sprite
 	PImage stairs;
 	PImage door;
 	PImage key;
@@ -62,8 +70,8 @@ public class Game extends PApplet {
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
-		rooms = new Rooms();
-		map = rooms.getRoom(0);
+		currentRoom = room1;
+		map = currentRoom.getRoom();
 		
 		message = "Welcome to the alpha of my game, use arrow keys to move and space to interact";
 		for (int i = 0; i < gameSize; i++) {
@@ -89,20 +97,20 @@ public class Game extends PApplet {
 //		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX() + x) / cellSize));
 //	}
 
-	public void mousePressed() {
+	public void act() {
+		int previousX = (int) player.getX();
+		int previousY = (int) player.getY();
+		if(map[(int) player.getY()][(int) player.getX()].equals("E")) {
+			player.setLocation(currentRoom.changeRoom(player.getLocation(), this));
+			relocate(previousX, previousY);
+		}
 		
+		map = currentRoom.getRoom();
 	}
 	
 	public void keyPressed() {
 		int previousX = (int) player.getX();
 		int previousY = (int) player.getY();
-		
-		if(keyCode == SHIFT) {
-			map = rooms.getRoom(1);
-		}
-		if(keyCode == CONTROL) {
-			map = rooms.getRoom(0);
-		}
 		
 		if(keyCode == 32) {
 			if(map[(int) player.getY()][(int) player.getX()].equals("#")) {
@@ -116,14 +124,10 @@ public class Game extends PApplet {
 		}
 		
 		if (keyCode == UP && player.getY() - 1 >= 0 && !map[(int) player.getY() - 1][(int) player.getX()].equals("W")) {
-				player.relocate((int) player.getX(), (int) player.getY() - 1);
-				relocate(previousX, previousY);
+			player.relocate((int) player.getX(), (int) player.getY() - 1);
+			relocate(previousX, previousY);
 		}
 		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[(int) player.getY()][(int) player.getX() - 1].equals("W")) {
-			if((int) player.getY() == 9 && (int) player.getX() - 1 == 0) {
-				player.relocate(17, 9);
-				map = rooms.getRoom(1);
-			}
 			player.relocate((int) player.getX() - 1, (int) player.getY());
 			relocate(previousX, previousY);
 		}
@@ -132,11 +136,7 @@ public class Game extends PApplet {
 			relocate(previousX, previousY);
 		}
 		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[(int) player.getY()][(int) player.getX() + 1].equals("W")) {
-			if((int) player.getY() == 9 && (int) player.getX() + 1 == 17) {
-				player.relocate(0, 9);
-				map = rooms.getRoom(0);
-			}
-			if((map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !hasKey)) {
+			if(map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !hasKey) {
 				message = "You need a key!";
 			} else {
 				player.relocate((int) player.getX() + 1, (int) player.getY());
@@ -144,6 +144,8 @@ public class Game extends PApplet {
 			}
 			
 		}
+		
+		act();
 	}
 	
 	/**
@@ -196,5 +198,27 @@ public class Game extends PApplet {
 	}
 	
 	
+	public void setCurrentRoom(Room r) {
+		currentRoom = r;
+	}
 	
+	public Room getMiddleMiddle() {
+		return room1;
+	}
+	
+	public Room getMiddleLeft() {
+		return room2;
+	}
+	
+	public Room getMiddleRight() {
+		return room3;
+	}
+	
+	public Room getTopMiddle() {
+		return room4;
+	}
+	
+	public Room getBottomMiddle() {
+		return room5;
+	}
 }
