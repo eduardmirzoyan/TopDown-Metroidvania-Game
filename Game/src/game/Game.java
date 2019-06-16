@@ -2,7 +2,6 @@ package game;
 /**
  * @version 0.4
  */
-import java.awt.Point;
 import processing.core.*;
 
 public class Game extends PApplet {
@@ -10,7 +9,7 @@ public class Game extends PApplet {
 	public static final int gameSize = 18;
 	public static final int cellSize = 50;
 
-	//IMPORTANT currentLoc is in x,y form while grid is y,x form
+	//IMPORTANT currentLoc is in x,y form while grid is y, x form
 	
 //	private String[][] map = {
 //			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
@@ -39,10 +38,16 @@ public class Game extends PApplet {
 	//Room rooms;
 	
 	private MiddleMiddle room1 = new MiddleMiddle();
+	
 	private MiddleLeft room2 = new MiddleLeft();
 	private MiddleRight room3 = new MiddleRight();
 	private TopMiddle room4 = new TopMiddle();
 	private BottomMiddle room5 = new BottomMiddle();
+	
+	private TopLeft room6 = new TopLeft();
+	private TopRight room7 = new TopRight();
+	private BottomLeft room8 = new BottomLeft();
+	private BottomRight room9 = new BottomRight();
 	
 	private Room currentRoom;
 	
@@ -220,5 +225,9 @@ public class Game extends PApplet {
 	
 	public Room getBottomMiddle() {
 		return room5;
+	}
+
+	public Room getTopLeft() {
+		return room6;
 	}
 }

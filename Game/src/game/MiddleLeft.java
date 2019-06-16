@@ -5,9 +5,10 @@ import java.awt.Point;
 public class MiddleLeft extends Room {
 	
 	public static Point entrance3 = new Point(17, 9);
+	public static Point entrance2 = new Point(7, 0);
 
 	private String[][] map = {
-			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+			{"W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
@@ -16,7 +17,7 @@ public class MiddleLeft extends Room {
 			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "E"},
+			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "E"},
 			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
@@ -31,10 +32,13 @@ public class MiddleLeft extends Room {
 		if(p.equals(entrance3)) {
 			g.setCurrentRoom(g.getMiddleMiddle());
 			return MiddleMiddle.entrance1;
-		} else {
-			System.out.println("Wrong choice");
-			return null;
+		} else if (p.equals(entrance2)) {
+			System.out.println("Chec");
+			g.setCurrentRoom(g.getTopLeft());
+			return TopLeft.entrance4;
 		}
+		System.out.println("Wrong choice");
+		return null;
 	}
 	
 	public String[][] getRoom(){
