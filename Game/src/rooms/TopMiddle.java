@@ -1,9 +1,12 @@
-package game;
+package rooms;
 
 import java.awt.Point;
+import game.*;
 
-public class BottomLeft extends Room {
+public class TopMiddle extends Room {
 
+	public static Point entrance4 = new Point(8, 17);
+	
 	private String[][] map = {
 			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
@@ -25,14 +28,21 @@ public class BottomLeft extends Room {
 			{"W", "W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
 
-	@Override
 	public Point changeRoom(Point p, Game g) {
-		// TODO Auto-generated method stub
-		return null;
+		if(p.equals(entrance4)) {
+			g.setCurrentRoom(g.getMiddleMiddle());
+			return MiddleMiddle.entrance2;
+		} else {
+			System.out.println("Wrong choice");
+			return null;
+		}
 	}
 
 	public String[][] getRoom() {
 		return map;
 	}
-	
+
+	public int getCode() {
+		return 2;
+	}
 }

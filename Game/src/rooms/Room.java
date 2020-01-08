@@ -1,6 +1,7 @@
-package game;
+package rooms;
 
 import java.awt.Point;
+import game.*;
 
 public abstract class Room {
 
@@ -10,4 +11,5 @@ public abstract class Room {
 	
 	public abstract String[][] getRoom();
 	
+	public abstract int getCode();
 }

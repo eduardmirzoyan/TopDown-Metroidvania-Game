@@ -24,6 +24,7 @@ public class Player {
 	}
 	
 	public double getY() {
+		System.out.println(location.getY());
 		return location.getY();
 	}
 	

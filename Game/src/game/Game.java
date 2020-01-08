@@ -3,6 +3,7 @@ package game;
  * @version 0.4
  */
 import processing.core.*;
+import rooms.*;
 
 public class Game extends PApplet {
 	
@@ -35,6 +36,8 @@ public class Game extends PApplet {
 	private String[][] map;
 	private String[][] location = new String[gameSize][gameSize];
 	Player player;
+	
+	MiniMap miniMap = new MiniMap();
 	//Room rooms;
 	
 	private MiddleMiddle room1 = new MiddleMiddle();
@@ -52,7 +55,7 @@ public class Game extends PApplet {
 	private Room currentRoom;
 	
 	private boolean hasKey = false;
-	private String message;
+	private String message; 
 	
 	//Sprite
 	PImage stairs;
@@ -84,13 +87,12 @@ public class Game extends PApplet {
 				location[j][i] = "EMPTY";
 				if(map[j][i].equals("X")) {
 					player = new Player(i, j);
-					//player.relocate(i, j);
 					location[j][i] = "PLAYER";
 				}
 			}
 		}
 		ellipseMode(CORNER);
-		
+	
 	}
 	
 //	private Point clickToIndex(Point p, float x, float y) {
@@ -111,6 +113,7 @@ public class Game extends PApplet {
 		}
 		
 		map = currentRoom.getRoom();
+		miniMap.setLocation(currentRoom.getCode());
 	}
 	
 	public void keyPressed() {
@@ -200,6 +203,8 @@ public class Game extends PApplet {
 				}
 			}
 		}
+		
+		miniMap.draw(this);
 	}
 	
 	

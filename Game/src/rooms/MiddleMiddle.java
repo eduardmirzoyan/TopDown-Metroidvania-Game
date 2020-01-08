@@ -1,6 +1,7 @@
-package game;
+package rooms;
 
 import java.awt.Point;
+import game.*;
 
 public class MiddleMiddle extends Room {
 
@@ -18,7 +19,7 @@ public class MiddleMiddle extends Room {
 			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-			{"W", "W", "W", "W", "W", "W", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+			{"W", "W", "W", "W", "W", "W", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"}, 
 			{"E", "*", "*", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "E"},
 			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
@@ -34,15 +35,19 @@ public class MiddleMiddle extends Room {
 		if(p.equals(entrance1)) {
 			g.setCurrentRoom(g.getMiddleLeft());
 			return MiddleLeft.entrance3;
+			
 		} else if (p.equals(entrance3)) { 
 			g.setCurrentRoom(g.getMiddleRight());
 			return MiddleRight.entrance1;
+			
 		} else if (p.equals(entrance2)) { 
 			g.setCurrentRoom(g.getTopMiddle());
 			return TopMiddle.entrance4;
+			
 		} else if (p.equals(entrance4)) { 
 			g.setCurrentRoom(g.getBottomMiddle());
 			return BottomMiddle.entrance2;
+			
 		}
 		System.out.println("Wrong choice");
 		return null;
@@ -52,5 +57,9 @@ public class MiddleMiddle extends Room {
 	
 	public String[][] getRoom(){
 		return map;
+	}
+
+	public int getCode() {
+		return 5;
 	}
 }

@@ -1,6 +1,8 @@
-package game;
+package rooms;
 
 import java.awt.Point;
+import game.*;
+
 
 public class BottomRight extends Room {
 
@@ -32,6 +34,10 @@ public class BottomRight extends Room {
 
 	public String[][] getRoom() {
 		return map;
+	}
+
+	public int getCode() {
+		return 9;
 	}
 
 }

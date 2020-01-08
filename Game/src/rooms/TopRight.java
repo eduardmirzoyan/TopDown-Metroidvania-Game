@@ -1,6 +1,7 @@
-package game;
+package rooms;
 
 import java.awt.Point;
+import game.*;
 
 public class TopRight extends Room {
 
@@ -25,7 +26,7 @@ public class TopRight extends Room {
 			{"W", "W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
 
-	@Override
+	@Override 
 	public Point changeRoom(Point p, Game g) {
 		// TODO Auto-generated method stub
 		return null;
@@ -33,5 +34,9 @@ public class TopRight extends Room {
 
 	public String[][] getRoom() {
 		return map;
+	}
+
+	public int getCode() {
+		return 3;
 	}
 }
