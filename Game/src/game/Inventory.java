@@ -12,23 +12,23 @@ public class Inventory {
 		 items = new ArrayList<Key>();
 	}
 	
-	public int addKey(Key item) {
+	public boolean addKey(Key item) {
 		if(items.size() > 4) {
-			return -1;
+			return false;
 		}
 		items.add(item);
 		//System.out.println(item.getColor());
-		return 1;
+		return true;
 	}
 	
-	public int removeKey(String color) {
+	public boolean removeKey(String color) {
 		for(int i = 0; i < items.size(); i++) {
 			if(color == items.get(i).getColor()) {
 				items.remove(i);
-				return 1;
+				return true;
 			}
 		}
-		return -1;
+		return false;
 	}
 	
 	public void draw(PApplet p) {
@@ -43,7 +43,7 @@ public class Inventory {
 		p.ellipse(500, 275, 100, 100);
 		
 		for(int i = 0; i < items.size(); i++) {
-			items.get(i).draw(p, 150 + 125 * i, 300);
+			items.get(i).draw(p, 150 + 125 * i, 300, 50);
 		}
 		
 		p.popMatrix();

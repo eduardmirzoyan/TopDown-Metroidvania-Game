@@ -33,10 +33,10 @@ public class Key {
 		return color;
 	}
 	
-	public void draw(PApplet p, int x, int y) {
+	public void draw(PApplet p, int x, int y, int size) {
 		p.pushMatrix();
 		
-		p.image(sprite, x, y, 50, 50 );
+		p.image(sprite, x, y, size, size);
 		
 		p.popMatrix();
 	}

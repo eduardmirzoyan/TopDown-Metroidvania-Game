@@ -48,4 +48,11 @@ public class BottomMiddle extends Room {
 		return 8;
 	}
 
+
+	@Override
+	public Key getKey(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

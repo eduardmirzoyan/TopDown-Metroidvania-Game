@@ -37,30 +37,37 @@ public class Game extends PApplet {
 	private String[][] location = new String[gameSize][gameSize];
 	Player player;
 	
-	MiniMap miniMap = new MiniMap();
-	
-	private MiddleMiddle room1 = new MiddleMiddle();
-	
-	private MiddleLeft room2 = new MiddleLeft();
-	private MiddleRight room3 = new MiddleRight();
-	private TopMiddle room4 = new TopMiddle();
-	private BottomMiddle room5 = new BottomMiddle();
-	
-	private TopLeft room6 = new TopLeft();
-	private TopRight room7 = new TopRight();
-	private BottomLeft room8 = new BottomLeft();
-	private BottomRight room9 = new BottomRight();
-	
-	private Room currentRoom;
-	
-	private boolean hasKey = false;
-	private String message; 
-	
 	//Sprites
 	PImage stairs;
 	PImage door;
 	PImage yellowKey;
 	PImage blueKey;
+	
+	MiniMap miniMap = new MiniMap();
+	
+	
+	
+	
+	
+	
+
+	private TopLeft room1 = new TopLeft();
+	private TopMiddle room2 = new TopMiddle();
+	private TopRight room3 = new TopRight();
+	
+	private MiddleLeft room4 = new MiddleLeft();
+	private MiddleMiddle room5;
+	private MiddleRight room6 = new MiddleRight();
+	
+	private BottomLeft room7 = new BottomLeft();
+	private BottomMiddle room8 = new BottomMiddle();
+	private BottomRight room9 = new BottomRight();
+	
+	private Room currentRoom;
+	
+	private String message; 
+	
+	
 	
 	
 	PImage icon;
@@ -74,16 +81,18 @@ public class Game extends PApplet {
 	public void setup() {
 		stairs = loadImage("images/stairs.png");
 		door = loadImage("images/door.png");
-		
 		yellowKey = loadImage("images/key.png");
 		blueKey = loadImage("images/key2.png");
-		
 		icon = loadImage("images/icon.png");
+		
 		
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
-		currentRoom = room1;
+		
+		room5 = new MiddleMiddle(yellowKey, blueKey);
+		
+		currentRoom = room5;
 		map = currentRoom.getRoom();
 		
 		message = "Welcome to the alpha of my game, use arrow keys to move and space to interact";
@@ -127,26 +136,13 @@ public class Game extends PApplet {
 		
 		// code 32 is the spacebar
 		if(keyCode == 32) {
-			if(map[(int) player.getY()][(int) player.getX()].equals("#")) {
+			if(map[previousY][previousX].equals("#")) {
 				message = "You've escaped!";
 			}
-			if(map[(int) player.getY()][(int) player.getX()].equals("1")) {
+			if(map[previousY][previousX].equals("@")) {
 				
-				if(player.getInventory().addKey(new Key("Yellow", yellowKey)) == 1) {
+				if(player.getInventory().addKey(currentRoom.getKey(previousX, previousY))) {
 					message = "You've picked up a key!";
-					hasKey = true;
-				}
-				else {
-					message = "Your inventory is full.";
-				}
-				
-				map[(int) player.getY()][(int) player.getX()] = "*";
-			}
-			if(map[(int) player.getY()][(int) player.getX()].equals("2")) {
-				
-				if(player.getInventory().addKey(new Key("Blue", blueKey)) == 1) {
-					message = "You've picked up a key!";
-					hasKey = true;
 				}
 				else {
 					message = "Your inventory is full.";
@@ -171,7 +167,7 @@ public class Game extends PApplet {
 			relocate(previousX, previousY);
 		}
 		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[(int) player.getY()][(int) player.getX() + 1].equals("W")) {
-			if(map[(int) player.getY()][(int) player.getX() + 1].equals("&") && player.getInventory().removeKey("Yellow") == -1) {
+			if(map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !player.getInventory().removeKey("Yellow")) {
 				message = "You need a key!";
 			} else {
 				player.relocate((int) player.getX() + 1, (int) player.getY());
@@ -208,7 +204,6 @@ public class Game extends PApplet {
 			for (int j = 0; j < gameSize; j++) {
 				//Draws inventory and map stuff
 				
-
 				//Draws map
 				fill(200);
 				if(map[j][i].equals("W")) {
@@ -222,11 +217,8 @@ public class Game extends PApplet {
 				if(map[j][i].equals("&")) {
 					image(door, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
-				if(map[j][i].equals("1")) {
-					image(yellowKey, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
-				}
-				if(map[j][i].equals("2")) {
-					image(blueKey, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
+				if(map[j][i].equals("@")) {
+					currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
 				
 				

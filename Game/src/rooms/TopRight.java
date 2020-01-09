@@ -39,4 +39,10 @@ public class TopRight extends Room {
 	public int getCode() {
 		return 3;
 	}
+
+	@Override
+	public Key getKey(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

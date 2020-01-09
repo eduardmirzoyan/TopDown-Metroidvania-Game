@@ -39,5 +39,11 @@ public class BottomLeft extends Room {
 	public int getCode() {
 		return 7;
 	}
+
+	@Override
+	public Key getKey(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

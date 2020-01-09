@@ -11,5 +11,7 @@ public abstract class Room {
 	
 	public abstract String[][] getRoom();
 	
+	public abstract Key getKey(int x, int y);
+	
 	public abstract int getCode();
 }
