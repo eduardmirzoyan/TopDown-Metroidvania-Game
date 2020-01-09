@@ -38,7 +38,6 @@ public class Game extends PApplet {
 	Player player;
 	
 	MiniMap miniMap = new MiniMap();
-	//Room rooms;
 	
 	private MiddleMiddle room1 = new MiddleMiddle();
 	
@@ -57,10 +56,13 @@ public class Game extends PApplet {
 	private boolean hasKey = false;
 	private String message; 
 	
-	//Sprite
+	//Sprites
 	PImage stairs;
 	PImage door;
-	PImage key;
+	PImage yellowKey;
+	PImage blueKey;
+	
+	
 	PImage icon;
 	
 	public void settings(){
@@ -72,7 +74,10 @@ public class Game extends PApplet {
 	public void setup() {
 		stairs = loadImage("images/stairs.png");
 		door = loadImage("images/door.png");
-		key = loadImage("images/key.png");
+		
+		yellowKey = loadImage("images/key.png");
+		blueKey = loadImage("images/key2.png");
+		
 		icon = loadImage("images/icon.png");
 		
 		surface.setTitle("Dungeon");
@@ -120,15 +125,37 @@ public class Game extends PApplet {
 		int previousX = (int) player.getX();
 		int previousY = (int) player.getY();
 		
+		// code 32 is the spacebar
 		if(keyCode == 32) {
 			if(map[(int) player.getY()][(int) player.getX()].equals("#")) {
 				message = "You've escaped!";
 			}
-			if(map[(int) player.getY()][(int) player.getX()].equals("@")) {
-				hasKey = true;
-				message = "You've grabbed a key!";
+			if(map[(int) player.getY()][(int) player.getX()].equals("1")) {
+				
+				if(player.getInventory().addKey(new Key("Yellow", yellowKey)) == 1) {
+					message = "You've picked up a key!";
+					hasKey = true;
+				}
+				else {
+					message = "Your inventory is full.";
+				}
+				
 				map[(int) player.getY()][(int) player.getX()] = "*";
 			}
+			if(map[(int) player.getY()][(int) player.getX()].equals("2")) {
+				
+				if(player.getInventory().addKey(new Key("Blue", blueKey)) == 1) {
+					message = "You've picked up a key!";
+					hasKey = true;
+				}
+				else {
+					message = "Your inventory is full.";
+				}
+				
+				map[(int) player.getY()][(int) player.getX()] = "*";
+			}
+			
+			
 		}
 		
 		if (keyCode == UP && player.getY() - 1 >= 0 && !map[(int) player.getY() - 1][(int) player.getX()].equals("W")) {
@@ -144,11 +171,12 @@ public class Game extends PApplet {
 			relocate(previousX, previousY);
 		}
 		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[(int) player.getY()][(int) player.getX() + 1].equals("W")) {
-			if(map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !hasKey) {
+			if(map[(int) player.getY()][(int) player.getX() + 1].equals("&") && player.getInventory().removeKey("Yellow") == -1) {
 				message = "You need a key!";
 			} else {
 				player.relocate((int) player.getX() + 1, (int) player.getY());
 				relocate(previousX, previousY);
+				map[(int) player.getY()][(int) player.getX()] = "*";
 			}
 			
 		}
@@ -171,7 +199,9 @@ public class Game extends PApplet {
 	public void draw() {
 		background(255);
 		stroke(0);
-		text(message, 50, 50);
+		fill(0);
+		textSize(25);
+		text(message, 50, 50, 600, 100);
 		noStroke();
 		
 		for (int i = 0; i < gameSize; i++) {
@@ -192,9 +222,13 @@ public class Game extends PApplet {
 				if(map[j][i].equals("&")) {
 					image(door, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
-				if(map[j][i].equals("@")) {
-					image(key, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
+				if(map[j][i].equals("1")) {
+					image(yellowKey, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
+				if(map[j][i].equals("2")) {
+					image(blueKey, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
+				}
+				
 				
 				//Draws player
 				if(location[j][i].equals("PLAYER")) {
@@ -205,6 +239,7 @@ public class Game extends PApplet {
 		}
 		
 		miniMap.draw(this);
+		player.getInventory().draw(this);
 	}
 	
 	

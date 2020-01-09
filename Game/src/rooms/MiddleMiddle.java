@@ -2,6 +2,7 @@ package rooms;
 
 import java.awt.Point;
 import game.*;
+import processing.core.PImage;
 
 public class MiddleMiddle extends Room {
 
@@ -9,6 +10,8 @@ public class MiddleMiddle extends Room {
 	public static Point entrance2 = new Point(7, 0);
 	public static Point entrance3 = new Point(17, 9);
 	public static Point entrance4 = new Point(8, 17);
+	
+	private Key key = new Key("Yellow");
 	
 	private String[][] map = {
 			{"W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
@@ -24,9 +27,9 @@ public class MiddleMiddle extends Room {
 			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
+			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "2", "*", "W"},
 			{"W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "W", "W", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "@", "*", "W"},
+			{"W", "*", "W", "W", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "1", "*", "W"},
 			{"W", "X", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
@@ -52,6 +55,9 @@ public class MiddleMiddle extends Room {
 		System.out.println("Wrong choice");
 		return null;
 
+	}
+	
+	public void geyKey() {
 		
 	}
 	

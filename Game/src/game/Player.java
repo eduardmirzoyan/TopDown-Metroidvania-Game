@@ -4,11 +4,14 @@ import java.awt.Point;
 
 public class Player {
 
-	Point location;
+	private Point location;
+	private Inventory inventory;
+	
 	private boolean hasKey;
 	
 	public Player(int x, int y) {
 		location = new Point(x, y);
+		inventory = new Inventory();
 	}
 	
 	public void relocate(int x, int y) {
@@ -24,7 +27,6 @@ public class Player {
 	}
 	
 	public double getY() {
-		System.out.println(location.getY());
 		return location.getY();
 	}
 	
@@ -34,5 +36,9 @@ public class Player {
 	
 	public Point getLocation() {
 		return location;
+	}
+	
+	public Inventory getInventory() {
+		return inventory;
 	}
 }
