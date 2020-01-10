@@ -6,9 +6,10 @@ import game.*;
 
 public class MiddleLeft extends Room {
 	
-	public static Point entrance3 = new Point(17, 9);
 	public static Point entrance2 = new Point(7, 0);
-
+	public static Point entrance3 = new Point(17, 9);
+	public static Point entrance4 = new Point(2, 17);
+	
 	private String[][] map = {
 			{"W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
@@ -27,7 +28,7 @@ public class MiddleLeft extends Room {
 			{"W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
+			{"W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
 	
 	public Point changeRoom(Point p, Game g) {
@@ -35,9 +36,11 @@ public class MiddleLeft extends Room {
 			g.setCurrentRoom(g.getMiddleMiddle());
 			return MiddleMiddle.entrance1;
 		} else if (p.equals(entrance2)) {
-			System.out.println("Chec");
 			g.setCurrentRoom(g.getTopLeft());
 			return TopLeft.entrance4;
+		} else if(p.equals(entrance4)) {
+			g.setCurrentRoom(g.getBottomLeft());
+			return BottomLeft.entrance2;
 		}
 		System.out.println("Wrong choice");
 		return null;

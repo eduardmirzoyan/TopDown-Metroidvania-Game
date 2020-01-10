@@ -5,6 +5,7 @@ import game.*;
 
 public class TopMiddle extends Room {
 
+	public static Point entrance3 = new Point(17, 8);
 	public static Point entrance4 = new Point(8, 17);
 	
 	private String[][] map = {
@@ -16,7 +17,7 @@ public class TopMiddle extends Room {
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "E"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
@@ -32,10 +33,12 @@ public class TopMiddle extends Room {
 		if(p.equals(entrance4)) {
 			g.setCurrentRoom(g.getMiddleMiddle());
 			return MiddleMiddle.entrance2;
-		} else {
-			System.out.println("Wrong choice");
-			return null;
+		} else if(p.equals(entrance3)) {
+			g.setCurrentRoom(g.getTopRight());
+			return TopRight.entrance1;
 		}
+		System.out.println("Wrong choice");
+		return null;
 	}
 
 	public String[][] getRoom() {

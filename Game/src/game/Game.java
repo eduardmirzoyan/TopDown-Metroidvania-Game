@@ -54,7 +54,6 @@ public class Game extends PApplet {
 		blueKey = loadImage("images/bluekey.png");
 		
 		
-		
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
@@ -70,7 +69,6 @@ public class Game extends PApplet {
 		room7 = new BottomLeft();
 		room8 = new BottomMiddle();
 		room9 = new BottomRight();
-		
 		
 		currentRoom = room5;
 		map = currentRoom.getRoom();
@@ -118,8 +116,6 @@ public class Game extends PApplet {
 				
 				map[(int) player.getY()][(int) player.getX()] = "*";
 			}
-			
-			
 		}
 		
 		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W")) {
@@ -133,22 +129,6 @@ public class Game extends PApplet {
 		}
 		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W")) {
 			action(currentX, currentY, currentX + 1, currentY);
-			
-//			if(map[currentY][currentX + 1].equals("&")) {
-//				if(currentRoom.getDoor(currentX + 1, currentY).unlock(player.getInventory())) {
-//					map[currentY][currentX + 1] = "*";
-//					message = "You unlock the door.";
-//					player.relocate(currentX + 1, currentY);
-//					relocate(currentX, currentY);
-//				}
-//				else {
-//					message = "You need a key!";
-//				}
-//			}
-//			else {
-//				player.relocate(currentX + 1, currentY);
-//				relocate(currentX, currentY);
-//			}
 		}
 		
 		checkMapChange();
@@ -205,6 +185,7 @@ public class Game extends PApplet {
 		text(message, 50, 50, 600, 100);
 		noStroke();
 		
+		// Draws all the playable board for the player such as doors keys and walls
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				fill(200);
@@ -220,7 +201,7 @@ public class Game extends PApplet {
 					currentRoom.getDoor(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
 				if(map[j][i].equals("@")) {
-					currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
+					//currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
 				
 				
@@ -232,36 +213,50 @@ public class Game extends PApplet {
 			}
 		}
 		
+		// Draws the minimap on screen
 		miniMap.draw(this);
+		
+		// Draws the players inventory on screen
 		player.getInventory().draw(this);
 	}
-	
 	
 	public void setCurrentRoom(Room r) {
 		currentRoom = r;
 	}
 	
-	public Room getMiddleMiddle() {
-		return room5;
-	}
-	
-	public Room getMiddleLeft() {
-		return room4;
-	}
-	
-	public Room getMiddleRight() {
-		return room6;
+	public Room getTopLeft() {
+		return room1;
 	}
 	
 	public Room getTopMiddle() {
 		return room2;
 	}
 	
+	public Room getTopRight() {
+		return room3;
+	}
+	
+	public Room getMiddleLeft() {
+		return room4;
+	}
+	
+	public Room getMiddleMiddle() {
+		return room5;
+	}
+	
+	public Room getMiddleRight() {
+		return room6;
+	}
+	
+	public Room getBottomLeft() {
+		return room7;
+	}
+	
 	public Room getBottomMiddle() {
 		return room8;
 	}
 
-	public Room getTopLeft() {
-		return room1;
+	public Room getBottomRight() {
+		return room9;
 	}
 }
