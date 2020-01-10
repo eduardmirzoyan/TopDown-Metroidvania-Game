@@ -13,5 +13,7 @@ public abstract class Room {
 	
 	public abstract Key getKey(int x, int y);
 	
+	public abstract Door getDoor(int x, int y);
+	
 	public abstract int getCode();
 }

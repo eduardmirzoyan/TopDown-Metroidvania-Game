@@ -12,65 +12,31 @@ public class Game extends PApplet {
 
 	//IMPORTANT currentLoc is in x,y form while grid is y, x form
 	
-//	private String[][] map = {
-//			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "*", "*", "&", "*", "*", "*", "*", "*", "*", "#", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-//			{"W", "W", "W", "W", "W", "W", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "W", "W", "W", "W", "*", "W", "*", "W", "*", "W", "*", "*", "*", "*", "@", "*", "W"},
-//			{"W", "X", "*", "*", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-//			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-//		};
-	
 	private String[][] map;
 	private String[][] location = new String[gameSize][gameSize];
 	Player player;
 	
 	//Sprites
-	PImage stairs;
-	PImage door;
-	PImage yellowKey;
-	PImage blueKey;
+	PImage icon, stairs, blueDoor, yellowDoor, yellowKey, blueKey;
 	
 	MiniMap miniMap = new MiniMap();
-	
-	
-	
-	
-	
-	
 
-	private TopLeft room1 = new TopLeft();
-	private TopMiddle room2 = new TopMiddle();
-	private TopRight room3 = new TopRight();
-	
-	private MiddleLeft room4 = new MiddleLeft();
-	private MiddleMiddle room5;
-	private MiddleRight room6 = new MiddleRight();
-	
-	private BottomLeft room7 = new BottomLeft();
-	private BottomMiddle room8 = new BottomMiddle();
-	private BottomRight room9 = new BottomRight();
-	
 	private Room currentRoom;
+	
+	private TopLeft room1;
+	private TopMiddle room2;
+	private TopRight room3;
+	
+	private MiddleLeft room4;
+	private MiddleMiddle room5;
+	private MiddleRight room6;
+	
+	private BottomLeft room7;
+	private BottomMiddle room8;
+	private BottomRight room9;
 	
 	private String message; 
 	
-	
-	
-	
-	PImage icon;
 	
 	public void settings(){
 		size(1600,900);
@@ -79,18 +45,32 @@ public class Game extends PApplet {
 	//Always runs after any constructor
 	//Make sure every gridspace isnt null
 	public void setup() {
-		stairs = loadImage("images/stairs.png");
-		door = loadImage("images/door.png");
-		yellowKey = loadImage("images/key.png");
-		blueKey = loadImage("images/key2.png");
 		icon = loadImage("images/icon.png");
+		stairs = loadImage("images/stairs.png");
+		
+		blueDoor = loadImage("images/bluedoor.png");
+		yellowDoor = loadImage("images/yellowdoor.png");
+		yellowKey = loadImage("images/yellowkey.png");
+		blueKey = loadImage("images/bluekey.png");
+		
 		
 		
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
 		
-		room5 = new MiddleMiddle(yellowKey, blueKey);
+		room1 = new TopLeft();
+		room2 = new TopMiddle();
+		room3 = new TopRight();
+		
+		room4 = new MiddleLeft();
+		room5 = new MiddleMiddle(yellowKey, blueKey, yellowDoor, blueDoor);
+		room6 = new MiddleRight();
+		
+		room7 = new BottomLeft();
+		room8 = new BottomMiddle();
+		room9 = new BottomRight();
+		
 		
 		currentRoom = room5;
 		map = currentRoom.getRoom();
@@ -117,31 +97,19 @@ public class Game extends PApplet {
 //
 //		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX() + x) / cellSize));
 //	}
-
-	public void act() {
-		int previousX = (int) player.getX();
-		int previousY = (int) player.getY();
-		if(map[(int) player.getY()][(int) player.getX()].equals("E")) {
-			player.setLocation(currentRoom.changeRoom(player.getLocation(), this));
-			relocate(previousX, previousY);
-		}
-		
-		map = currentRoom.getRoom();
-		miniMap.setLocation(currentRoom.getCode());
-	}
 	
 	public void keyPressed() {
-		int previousX = (int) player.getX();
-		int previousY = (int) player.getY();
+		int currentX = (int) player.getX();
+		int currentY = (int) player.getY();
 		
 		// code 32 is the spacebar
 		if(keyCode == 32) {
-			if(map[previousY][previousX].equals("#")) {
+			if(map[currentY][currentX].equals("#")) {
 				message = "You've escaped!";
 			}
-			if(map[previousY][previousX].equals("@")) {
+			if(map[currentY][currentX].equals("@")) {
 				
-				if(player.getInventory().addKey(currentRoom.getKey(previousX, previousY))) {
+				if(player.getInventory().addKey(currentRoom.getKey(currentX, currentY))) {
 					message = "You've picked up a key!";
 				}
 				else {
@@ -154,30 +122,67 @@ public class Game extends PApplet {
 			
 		}
 		
-		if (keyCode == UP && player.getY() - 1 >= 0 && !map[(int) player.getY() - 1][(int) player.getX()].equals("W")) {
-			player.relocate((int) player.getX(), (int) player.getY() - 1);
-			relocate(previousX, previousY);
+		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W")) {
+			action(currentX, currentY, currentX, currentY - 1);
 		}
-		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[(int) player.getY()][(int) player.getX() - 1].equals("W")) {
-			player.relocate((int) player.getX() - 1, (int) player.getY());
-			relocate(previousX, previousY);
+		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W")) {
+			action(currentX, currentY, currentX - 1, currentY);
 		}
-		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[(int) player.getY() + 1][(int) player.getX()].equals("W")) {
-			player.relocate((int) player.getX(), (int) player.getY() + 1);
-			relocate(previousX, previousY);
+		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W")) {
+			action(currentX, currentY, currentX, currentY + 1);
 		}
-		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[(int) player.getY()][(int) player.getX() + 1].equals("W")) {
-			if(map[(int) player.getY()][(int) player.getX() + 1].equals("&") && !player.getInventory().removeKey("Yellow")) {
-				message = "You need a key!";
-			} else {
-				player.relocate((int) player.getX() + 1, (int) player.getY());
-				relocate(previousX, previousY);
-				map[(int) player.getY()][(int) player.getX()] = "*";
-			}
+		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W")) {
+			action(currentX, currentY, currentX + 1, currentY);
 			
+//			if(map[currentY][currentX + 1].equals("&")) {
+//				if(currentRoom.getDoor(currentX + 1, currentY).unlock(player.getInventory())) {
+//					map[currentY][currentX + 1] = "*";
+//					message = "You unlock the door.";
+//					player.relocate(currentX + 1, currentY);
+//					relocate(currentX, currentY);
+//				}
+//				else {
+//					message = "You need a key!";
+//				}
+//			}
+//			else {
+//				player.relocate(currentX + 1, currentY);
+//				relocate(currentX, currentY);
+//			}
 		}
 		
-		act();
+		checkMapChange();
+	}
+	
+	private void action(int currentX, int currentY, int newX, int newY) {
+		if(map[newY][newX].equals("&")) {
+			if(currentRoom.getDoor(newX, newY).unlock(player.getInventory())) {
+				map[newY][newX] = "*";
+				message = "You unlock the door.";
+				
+				player.relocate(newX, newY);
+				relocate(currentX, currentY);
+			}
+			else {
+				message = "You need a key!";
+			}
+		}
+		else {
+			player.relocate(newX, newY);
+			relocate(currentX, currentY);
+		}
+	}
+	
+	private void checkMapChange() {
+		int previousX = (int) player.getX();
+		int previousY = (int) player.getY();
+		if(map[(int) player.getY()][(int) player.getX()].equals("E")) {
+			player.setLocation(currentRoom.changeRoom(player.getLocation(), this));
+			relocate(previousX, previousY);
+		}
+		
+		map = currentRoom.getRoom();
+		miniMap.setLocation(currentRoom.getCode());
 	}
 	
 	/**
@@ -202,9 +207,6 @@ public class Game extends PApplet {
 		
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
-				//Draws inventory and map stuff
-				
-				//Draws map
 				fill(200);
 				if(map[j][i].equals("W")) {
 					fill(100);
@@ -215,7 +217,7 @@ public class Game extends PApplet {
 					image(stairs, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
 				if(map[j][i].equals("&")) {
-					image(door, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
+					currentRoom.getDoor(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
 				if(map[j][i].equals("@")) {
 					currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
@@ -240,26 +242,26 @@ public class Game extends PApplet {
 	}
 	
 	public Room getMiddleMiddle() {
-		return room1;
+		return room5;
 	}
 	
 	public Room getMiddleLeft() {
-		return room2;
-	}
-	
-	public Room getMiddleRight() {
-		return room3;
-	}
-	
-	public Room getTopMiddle() {
 		return room4;
 	}
 	
+	public Room getMiddleRight() {
+		return room6;
+	}
+	
+	public Room getTopMiddle() {
+		return room2;
+	}
+	
 	public Room getBottomMiddle() {
-		return room5;
+		return room8;
 	}
 
 	public Room getTopLeft() {
-		return room6;
+		return room1;
 	}
 }

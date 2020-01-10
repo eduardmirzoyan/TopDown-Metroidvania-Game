@@ -52,4 +52,10 @@ public class MiddleRight extends Room {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Door getDoor(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
