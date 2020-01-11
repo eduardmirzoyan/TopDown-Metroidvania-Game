@@ -11,41 +11,42 @@ public class MiddleMiddle extends Room {
 	public static Point entrance3 = new Point(17, 9);
 	public static Point entrance4 = new Point(8, 17);
 	
-	private Key yellowKey, blueKey;
-	private Door blueDoor, yellowDoor;
-	
-	public MiddleMiddle() {
-		
-	}
-	
-
-	public MiddleMiddle(PImage yKey, PImage bKey, PImage yDoor, PImage bDoor) {
-		yellowKey = new Key("Yellow", yKey);
-		blueKey = new Key("Blue", bKey);
-		yellowDoor = new Door("Yellow", yDoor);
-		blueDoor = new Door("Blue", bDoor);
-	}
+	private Key yellowKey, skyKey, pinkKey, brownKey;
+	private Door greenDoor, yellowDoor, redDoor, blueDoor, blackDoor;
 	
 	private String[][] map = {
 			{"W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
-			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "W", "#", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "W", "*", "*", "&", "W", "*", "W", "*", "W", "W", "*", "W"},
+			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "W", "*", "&", "*", "W", "#", "*", "W"},
+			{"W", "*", "*", "@", "*", "*", "W", "*", "&", "*", "W", "*", "W", "*", "W", "W", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "&", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "W", "*", "*", "*", "*", "W"},
+			{"W", "*", "*", "@", "*", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "*", "W"},
+			{"W", "*", "*", "*", "*", "*", "W", "*", "W", "*", "&", "*", "W", "*", "&", "*", "*", "W"},
 			{"W", "W", "W", "W", "W", "W", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"}, 
-			{"E", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "E"},
+			{"E", "*", "*", "*", "*", "*", "*", "@", "*", "*", "*", "*", "*", "*", "*", "*", "*", "E"},
 			{"W", "*", "W", "W", "W", "W", "W", "*", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 			{"W", "*", "*", "*", "W", "*", "W", "*", "W", "*", "*", "*", "W", "*", "*", "*", "W", "W"},
-			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "W", "W", "*", "W", "W", "W", "W"},
-			{"W", "*", "*", "W", "W", "*", "W", "*", "W", "*", "W", "W", "W", "@", "W", "W", "W", "W"},
+			{"W", "*", "W", "@", "W", "*", "W", "*", "W", "*", "W", "W", "W", "*", "W", "W", "W", "W"},
+			{"W", "*", "*", "W", "W", "*", "W", "*", "W", "*", "W", "W", "W", "*", "W", "W", "W", "W"},
 			{"W", "W", "*", "*", "W", "*", "W", "*", "W", "*", "W", "W", "W", "*", "W", "W", "W", "W"},
-			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "W", "W", "@", "W", "W", "W", "W"},
+			{"W", "*", "W", "*", "W", "*", "W", "*", "W", "*", "W", "W", "W", "*", "W", "W", "W", "W"},
 			{"W", "X", "*", "*", "W", "*", "*", "*", "*", "*", "*", "*", "W", "*", "*", "*", "W", "W"},
 			{"W", "W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
+	
+	public MiddleMiddle(PImage yKey, PImage sKey, PImage pKey, PImage bKey, PImage yDoor, PImage bDoor, PImage rDoor, PImage gDoor, PImage blDoor) {
+		yellowKey = new Key("Yellow", yKey);
+		skyKey = new Key("Sky", sKey);
+		pinkKey = new Key("Pink", pKey);
+		brownKey = new Key("Brown", bKey);
+		
+		yellowDoor = new Door("Yellow", yDoor);
+		blueDoor = new Door("Blue", bDoor);
+		redDoor = new Door("Red", rDoor);
+		greenDoor = new Door("Green", gDoor);
+		blackDoor = new Door("Black", blDoor);
+	}
 	
 	public Point changeRoom(Point p, Game g) {
 		if(p.equals(entrance1)) {
@@ -71,11 +72,20 @@ public class MiddleMiddle extends Room {
 	}
 	
 	public Door getDoor(int x, int y) {
-		if(x == 9 && y == 2) {
+		if(x == 8 && y == 2) {
 			return yellowDoor;
 		}
-		if(x == 6 && y == 5) {
+		if(x == 10 && y == 7) {
+			return redDoor;
+		}
+		if(x == 12 && y == 1) {
 			return blueDoor;
+		}
+		if(x == 14 && y == 7) {
+			return blackDoor;
+		}
+		if(x == 6 && y == 5) {
+			return greenDoor;
 		}
 		else {
 			return null;
@@ -83,11 +93,17 @@ public class MiddleMiddle extends Room {
 	}
 	
 	public Key getKey(int x, int y) {
-		if(x == 15 && y == 13) {
+		if(x == 3 && y == 2) {
 			return yellowKey;
 		}
-		if(x == 15 && y == 15) {
-			return blueKey;
+		if(x == 3 && y == 6) {
+			return skyKey;
+		}
+		if(x == 3 && y == 12) {
+			return pinkKey;
+		}
+		if(x == 7 && y == 9) {
+			return brownKey;
 		}
 		else {
 			

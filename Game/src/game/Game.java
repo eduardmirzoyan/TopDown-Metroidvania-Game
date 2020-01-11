@@ -17,7 +17,7 @@ public class Game extends PApplet {
 	Player player;
 	
 	//Sprites
-	PImage icon, stairs, blueDoor, yellowDoor, yellowKey, blueKey;
+	PImage icon, exit;
 	
 	MiniMap miniMap = new MiniMap();
 
@@ -46,29 +46,53 @@ public class Game extends PApplet {
 	//Make sure every gridspace isnt null
 	public void setup() {
 		icon = loadImage("images/icon.png");
-		stairs = loadImage("images/stairs.png");
+		exit = loadImage("images/stairs.png");
 		
-		blueDoor = loadImage("images/bluedoor.png");
-		yellowDoor = loadImage("images/yellowdoor.png");
-		yellowKey = loadImage("images/yellowkey.png");
-		blueKey = loadImage("images/bluekey.png");
-		
+		PImage yellowKey = loadImage("images/keys/yellowkey.png");
+		PImage blueKey = loadImage("images/keys/bluekey.png");
+		PImage redKey = loadImage("images/keys/redkey.png");
+		PImage greenKey = loadImage("images/keys/greenkey.png");
+		PImage orangeKey = loadImage("images/keys/orangekey.png");
+		PImage purpleKey = loadImage("images/keys/purplekey.png");
+		PImage brownKey = loadImage("images/keys/brownkey.png");
+		PImage blackKey = loadImage("images/keys/blackkey.png");
+		PImage whiteKey = loadImage("images/keys/whitekey.png");
+		PImage neonKey = loadImage("images/keys/neonkey.png");
+		PImage turkKey = loadImage("images/keys/turkkey.png");
+		PImage pinkKey = loadImage("images/keys/pinkkey.png");
+		PImage grayKey = loadImage("images/keys/graykey.png");
+		PImage skyKey = loadImage("images/keys/skykey.png");
+
+		PImage yellowDoor = loadImage("images/doors/yellowdoor.png");
+		PImage blueDoor = loadImage("images/doors/bluedoor.png");
+		PImage redDoor = loadImage("images/doors/reddoor.png");
+		PImage greenDoor = loadImage("images/doors/greendoor.png");
+		PImage orangeDoor = loadImage("images/doors/orangedoor.png");
+		PImage purpleDoor = loadImage("images/doors/purpledoor.png");
+		PImage brownDoor = loadImage("images/doors/browndoor.png");
+		PImage blackDoor = loadImage("images/doors/blackdoor.png");
+		PImage whiteDoor = loadImage("images/doors/whitedoor.png");
+		PImage neonDoor = loadImage("images/doors/neondoor.png");
+		PImage turkDoor = loadImage("images/doors/turkdoor.png");
+		PImage pinkDoor = loadImage("images/doors/pinkdoor.png");
+		PImage grayDoor = loadImage("images/doors/graydoor.png");
+		PImage skyDoor = loadImage("images/doors/skydoor.png");
 		
 		surface.setTitle("Dungeon");
 		surface.setIcon(icon);
 		
 		
-		room1 = new TopLeft();
-		room2 = new TopMiddle();
-		room3 = new TopRight();
+		room1 = new TopLeft(redKey, purpleKey, grayDoor, pinkDoor);
+		room2 = new TopMiddle(grayKey, orangeKey, skyDoor);
+		room3 = new TopRight(turkKey, purpleDoor, neonDoor);
 		
 		room4 = new MiddleLeft();
-		room5 = new MiddleMiddle(yellowKey, blueKey, yellowDoor, blueDoor);
-		room6 = new MiddleRight();
+		room5 = new MiddleMiddle(yellowKey, skyKey, pinkKey, brownKey, yellowDoor, blueDoor, redDoor, greenDoor, blackDoor);
+		room6 = new MiddleRight(neonKey, blueKey, whiteKey, brownDoor, orangeDoor);
 		
-		room7 = new BottomLeft();
-		room8 = new BottomMiddle();
-		room9 = new BottomRight();
+		room7 = new BottomLeft(greenKey, turkDoor);
+		room8 = new BottomMiddle(whiteDoor);
+		room9 = new BottomRight(blackKey);
 		
 		currentRoom = room5;
 		map = currentRoom.getRoom();
@@ -195,13 +219,13 @@ public class Game extends PApplet {
 				rect(700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				
 				if(map[j][i].equals("#")) {
-					image(stairs, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
+					image(exit, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
 				if(map[j][i].equals("&")) {
 					currentRoom.getDoor(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
 				if(map[j][i].equals("@")) {
-					//currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
+					currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
 				
 				

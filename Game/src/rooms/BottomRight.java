@@ -2,11 +2,14 @@ package rooms;
 
 import java.awt.Point;
 import game.*;
+import processing.core.PImage;
 
 
 public class BottomRight extends Room {
 
 	public static Point entrance2 = new Point(8, 0);
+	
+	private Key blackKey;
 	
 	private String[][] map = {
 			{"W", "W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
@@ -18,7 +21,7 @@ public class BottomRight extends Room {
 			{"W", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
+			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "@", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W", "W"},
 			{"W", "W", "W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W", "W", "W"},
@@ -28,6 +31,10 @@ public class BottomRight extends Room {
 			{"W", "W", "W", "W", "W", "W", "W", "*", "*", "*", "*", "W", "W", "W", "W", "W", "W", "W"},
 			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
+	
+	public BottomRight(PImage bKey) {
+		blackKey = new Key("Black", bKey);
+	}
 	
 	public Point changeRoom(Point p, Game g) {
 		if(p.equals(entrance2)) {
@@ -45,15 +52,14 @@ public class BottomRight extends Room {
 		return 9;
 	}
 
-	@Override
 	public Key getKey(int x, int y) {
-		// TODO Auto-generated method stub
+		if(x == 9 && y == 9) {
+			return blackKey;
+		}
 		return null;
 	}
 
-	@Override
 	public Door getDoor(int x, int y) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

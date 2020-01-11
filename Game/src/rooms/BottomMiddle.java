@@ -2,12 +2,15 @@ package rooms;
 
 import java.awt.Point;
 import game.*;
+import processing.core.PImage;
 
 
 public class BottomMiddle extends Room {
 
 	public static Point entrance2 = new Point(7, 0);
 	public static Point entrance4 = new Point(8, 17);
+	
+	private Door whiteDoor;
 	
 	private String[][] map = {
 			{"W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
@@ -26,9 +29,13 @@ public class BottomMiddle extends Room {
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "*", "W"},
 			{"W", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "W"},
-			{"W", "*", "*", "*", "*", "*", "*", "W", "*", "W", "*", "*", "*", "*", "*", "*", "*", "W"},
+			{"W", "*", "*", "*", "*", "*", "*", "W", "&", "W", "*", "*", "*", "*", "*", "*", "*", "W"},
 			{"W", "W", "W", "W", "W", "W", "W", "W", "E", "W", "W", "W", "W", "W", "W", "W", "W", "W"},
 		};
+	
+	public BottomMiddle(PImage wDoor) {
+		whiteDoor = new Door("White", wDoor);
+	}
 	
 	public Point changeRoom(Point p, Game g) {
 		if(p.equals(entrance2)) {
@@ -51,16 +58,14 @@ public class BottomMiddle extends Room {
 	}
 
 
-	@Override
 	public Key getKey(int x, int y) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-	@Override
 	public Door getDoor(int x, int y) {
-		// TODO Auto-generated method stub
+		if(x == 8 && y == 16) {
+			return whiteDoor;
+		}
 		return null;
 	}
 
