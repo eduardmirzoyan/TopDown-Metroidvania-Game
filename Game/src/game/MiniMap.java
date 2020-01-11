@@ -1,15 +1,16 @@
 package game;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class MiniMap {
 
 	private int location;
 	private String locationName;
+	private PImage cross;
 	
 	public MiniMap() {
 		location = 5;
-		locationName = "The beginning.";
 	}
 	
 	public MiniMap(int n) {
@@ -26,6 +27,8 @@ public class MiniMap {
 		p.rect(250, 450, 400, 400);
 		p.fill(255);
 		
+		p.textSize(40);
+		
 		if(location == 1) {
 			p.fill(150);
 			locationName = "Prison Cells";
@@ -39,8 +42,12 @@ public class MiniMap {
 			locationName = "Isn't this Tic-Tac-Toe?";
 		}
 		p.rect(400, 475, 100, 100);
-		if(location == 2)
+		if(location == 2) {
 			p.fill(255);
+			if(cross != null) {
+				p.image(cross, 400, 475, 100, 100);
+			}
+		}
 		
 		if(location == 3) {
 			p.fill(150);
@@ -60,7 +67,7 @@ public class MiniMap {
 		
 		if(location == 5) {
 			p.fill(150);
-			locationName = "The beginning";
+			locationName = "The Beginning";
 		}
 		p.rect(400, 600, 100, 100);
 		if(location == 5)
@@ -77,6 +84,7 @@ public class MiniMap {
 		if(location == 7) {
 			p.fill(150);
 			locationName = "Two Sides of the Same Coin";
+			p.textSize(30);
 		}
 		p.rect(275, 725, 100, 100);
 		if(location == 7)
@@ -102,7 +110,6 @@ public class MiniMap {
 		p.rect(250, 400, 400, 50);
 		
 		p.fill(0);
-		p.textSize(40);
 		p.textAlign(p.CENTER, p.CENTER);
 		p.text(locationName, 450, 425);
 		
@@ -112,5 +119,9 @@ public class MiniMap {
 	
 	public void setLocation(int n) {
 		location = n;
+	}
+	
+	public void setImage(PImage p) {
+		cross = p;
 	}
 }

@@ -30,44 +30,51 @@ public class Inventory {
 		return false;
 	}
 	
+	public Key getNewest() {
+		return items.get(items.size() - 1);
+	}
+	
 	public void draw(PApplet p) {
 		p.pushMatrix();
 		p.pushStyle();
 	
-		
+		// Draws the background of the inventory bar
 		p.fill(100);
-		//p.rect(100, 250, 525, 150);
+		p.rect(500, 350, 150, 525);
 		
-		p.rect(500, 325, 150, 525);
-		
+		// Draws the circle cutouts of the inventory bar
 		p.fill(255);
-		
-		
 		p.ellipseMode(p.RADIUS);
-		p.ellipse(575, 325 + 525 / 2, 50, 50);
-		p.ellipse(300, 325, 50, 50);
-		p.ellipse(425, 325, 50, 50);
-		p.ellipse(550, 325, 50, 50);
+		p.ellipse(575, 425, 50, 50);
+		p.ellipse(575, 550, 50, 50);
+		p.ellipse(575, 675, 50, 50);
+		p.ellipse(575, 800, 50, 50);
 		
+		// Draws the squares layred on the circles
 		p.rectMode(p.RADIUS);
-		p.rect(175, 325, 45, 45);
-		p.rect(300, 325, 45, 45);
-		p.rect(425, 325, 45, 45);
-		p.rect(550, 325, 45, 45);
-		
+		p.rect(575, 425, 45, 45);
+		p.rect(575, 550, 45, 45);
+		p.rect(575, 675, 45, 45);
+		p.rect(575, 800, 45, 45);
 		p.rectMode(p.CORNER);
 		
+		// Draws each key in the player's inventory in the cutouts
+		p.imageMode(p.CENTER);
 		for(int i = 0; i < items.size(); i++) {
-			items.get(i).draw(p, 150 + 125 * i, 300, 50);
+			items.get(i).draw(p, 575, 425 + 125 * i, 75);
 		}
 		
+		/*
+		// Draws the nameplate for the label
 		p.fill(150);
 		p.rect(100, 200, 262, 50);
 		
+		// Formats and draws the Inventory label
 		p.fill(0);
 		p.textSize(55);
 		p.textAlign(p.CENTER, p.CENTER);
 		p.text("Inventory", 100 + 262 / 2, 220);
+		*/
 		
 		p.popStyle();
 		p.popMatrix();

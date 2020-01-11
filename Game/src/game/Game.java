@@ -17,7 +17,7 @@ public class Game extends PApplet {
 	Player player;
 	
 	//Sprites
-	PImage icon, exit;
+	PImage icon, cross, blank, exit;
 	
 	MiniMap miniMap = new MiniMap();
 
@@ -47,6 +47,8 @@ public class Game extends PApplet {
 	public void setup() {
 		icon = loadImage("images/icon.png");
 		exit = loadImage("images/stairs.png");
+		cross = loadImage("images/cross.png");
+		blank = loadImage("images/blank.png");
 		
 		PImage yellowKey = loadImage("images/keys/yellowkey.png");
 		PImage blueKey = loadImage("images/keys/bluekey.png");
@@ -81,6 +83,7 @@ public class Game extends PApplet {
 		surface.setTitle("Labyrinth");
 		surface.setIcon(icon);
 		
+		miniMap.setImage(cross);
 		
 		room1 = new TopLeft(redKey, purpleKey, grayDoor, pinkDoor);
 		room2 = new TopMiddle(grayKey, orangeKey, skyDoor);
@@ -130,9 +133,8 @@ public class Game extends PApplet {
 				message = "You've escaped!";
 			}
 			if(map[currentY][currentX].equals("@")) {
-				
 				if(player.getInventory().addKey(currentRoom.getKey(currentX, currentY))) {
-					message = "You've picked up a key!";
+					message = "You've picked up a " + player.getInventory().getNewest().getColor() + " key!";
 				}
 				else {
 					message = "Your inventory is full.";
@@ -142,16 +144,16 @@ public class Game extends PApplet {
 			}
 		}
 		
-		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W")) {
+		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W") && !map[currentY - 1][currentX].equals("M")) {
 			action(currentX, currentY, currentX, currentY - 1);
 		}
-		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W")) {
+		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W") && !map[currentY][currentX - 1].equals("M")) {
 			action(currentX, currentY, currentX - 1, currentY);
 		}
-		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W")) {
+		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W") && !map[currentY + 1][currentX].equals("M")) {
 			action(currentX, currentY, currentX, currentY + 1);
 		}
-		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W")) {
+		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W") && !map[currentY][currentX + 1].equals("M")) {
 			action(currentX, currentY, currentX + 1, currentY);
 		}
 		
@@ -168,7 +170,7 @@ public class Game extends PApplet {
 				relocate(currentX, currentY);
 			}
 			else {
-				message = "You need a key!";
+				message = "You need a " + currentRoom.getDoor(newX, newY).getColor()  + " key!";
 			}
 		}
 		else {
@@ -205,12 +207,14 @@ public class Game extends PApplet {
 		background(255);
 		
 		fill(100);
-		rect(50, 50, 600, 100);
+		rect(40, 90, 620, 220);
+		fill(150);
+		rect(50, 100, 600, 200);
 		
 		stroke(0);
 		fill(0);
 		textSize(25);
-		text(message, 50, 50, 600, 100);
+		text(message, 60, 100, 580, 100);
 		noStroke();
 		
 		// Draws all the playable board for the player such as doors keys and walls
@@ -222,6 +226,9 @@ public class Game extends PApplet {
 				} 
 				rect(700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				
+				if(map[j][i].equals("M")) {
+					image(blank, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
+				} 
 				if(map[j][i].equals("#")) {
 					image(exit, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
