@@ -5,6 +5,7 @@ import processing.core.PImage;
 
 public class MiniMap {
 
+	
 	private int location;
 	private String locationName;
 	private PImage cross;
