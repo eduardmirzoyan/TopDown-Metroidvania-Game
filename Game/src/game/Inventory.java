@@ -17,7 +17,6 @@ public class Inventory {
 			return false;
 		}
 		items.add(item);
-		//System.out.println(item.getColor());
 		return true;
 	}
 	
@@ -33,19 +32,44 @@ public class Inventory {
 	
 	public void draw(PApplet p) {
 		p.pushMatrix();
-		p.fill(150);
-		p.rect(100, 250, 525, 150);
+		p.pushStyle();
+	
+		
+		p.fill(100);
+		//p.rect(100, 250, 525, 150);
+		
+		p.rect(500, 325, 150, 525);
 		
 		p.fill(255);
-		p.ellipse(125, 275, 100, 100);	
-		p.ellipse(250, 275, 100, 100);
-		p.ellipse(375, 275, 100, 100);
-		p.ellipse(500, 275, 100, 100);
+		
+		
+		p.ellipseMode(p.RADIUS);
+		p.ellipse(575, 325 + 525 / 2, 50, 50);
+		p.ellipse(300, 325, 50, 50);
+		p.ellipse(425, 325, 50, 50);
+		p.ellipse(550, 325, 50, 50);
+		
+		p.rectMode(p.RADIUS);
+		p.rect(175, 325, 45, 45);
+		p.rect(300, 325, 45, 45);
+		p.rect(425, 325, 45, 45);
+		p.rect(550, 325, 45, 45);
+		
+		p.rectMode(p.CORNER);
 		
 		for(int i = 0; i < items.size(); i++) {
 			items.get(i).draw(p, 150 + 125 * i, 300, 50);
 		}
 		
+		p.fill(150);
+		p.rect(100, 200, 262, 50);
+		
+		p.fill(0);
+		p.textSize(55);
+		p.textAlign(p.CENTER, p.CENTER);
+		p.text("Inventory", 100 + 262 / 2, 220);
+		
+		p.popStyle();
 		p.popMatrix();
 	}
 }

@@ -78,7 +78,7 @@ public class Game extends PApplet {
 		PImage grayDoor = loadImage("images/doors/graydoor.png");
 		PImage skyDoor = loadImage("images/doors/skydoor.png");
 		
-		surface.setTitle("Dungeon");
+		surface.setTitle("Labyrinth");
 		surface.setIcon(icon);
 		
 		
@@ -203,6 +203,10 @@ public class Game extends PApplet {
 	//j,i = x,y
 	public void draw() {
 		background(255);
+		
+		fill(100);
+		rect(50, 50, 600, 100);
+		
 		stroke(0);
 		fill(0);
 		textSize(25);
