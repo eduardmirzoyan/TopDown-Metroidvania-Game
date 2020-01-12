@@ -6,13 +6,21 @@ import processing.core.PApplet;
 
 public class Inventory {
 
-	ArrayList<Key> items;
+	// The common colors used throughout the game
 	private final int darkgray = 47, lightgray = 106;
+	
+	// A list of carried items by the player
+	ArrayList<Key> items;
 	
 	public Inventory() {
 		 items = new ArrayList<Key>();
 	}
 	
+	/**
+	 * Adds the key to the inventory if it doesn't exceed 4 items
+	 * @param item the Key that is wanted to be added
+	 * @return true or false depending if key was successfully added
+	 */
 	public boolean addKey(Key item) {
 		if(items.size() > 4) {
 			return false;
@@ -21,6 +29,11 @@ public class Inventory {
 		return true;
 	}
 	
+	/**
+	 * Removes key from inventory
+	 * @param color the color of the key wanting to be removed
+	 * @return true or false depending if key was successfully removed
+	 */
 	public boolean removeKey(String color) {
 		for(int i = 0; i < items.size(); i++) {
 			if(color == items.get(i).getColor()) {
@@ -31,10 +44,19 @@ public class Inventory {
 		return false;
 	}
 	
+	
+	/**
+	 * 
+	 * @return The newest key that was added to the inventory
+	 */
 	public Key getNewest() {
 		return items.get(items.size() - 1);
 	}
 	
+	/**
+	 * Draws the inventory UI of the player on the game screen along with all carried keys
+	 * @param p the main game's drawer
+	 */
 	public void draw(PApplet p) {
 		p.pushMatrix();
 		p.pushStyle();
@@ -64,18 +86,6 @@ public class Inventory {
 		for(int i = 0; i < items.size(); i++) {
 			items.get(i).draw(p, 575, 425 + 125 * i, 75);
 		}
-		
-		/*
-		// Draws the nameplate for the label
-		p.fill(150);
-		p.rect(100, 200, 262, 50);
-		
-		// Formats and draws the Inventory label
-		p.fill(0);
-		p.textSize(55);
-		p.textAlign(p.CENTER, p.CENTER);
-		p.text("Inventory", 100 + 262 / 2, 220);
-		*/
 		
 		p.popStyle();
 		p.popMatrix();

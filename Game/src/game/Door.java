@@ -17,6 +17,7 @@ public class Door {
 		sprite = img;
 	}
 	
+	
 	public void setSprite(PImage i) {
 		sprite = i;
 	}

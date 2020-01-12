@@ -7,20 +7,21 @@ import rooms.*;
 
 public class Game extends PApplet {
 	
-	public static final int gameSize = 18;
-	public static final int cellSize = 50;
+	public static final int gameSize = 18; // The size of the game grid
+	public static final int cellSize = 50; // The pixel size of each grid square
 
 	//IMPORTANT currentLoc is in x,y form while grid is y, x form
 	
-	private String[][] map;
-	private String[][] location = new String[gameSize][gameSize];
-	Player player;
-	MessageFeed messageFeed;
-	MiniMap miniMap;
+	private String[][] map; // The array of characters to determine what goes where
+	private String[][] location = new String[gameSize][gameSize]; // An array layered on the map that dictates the player's position
+	Player player; // The controllable player
+	MessageFeed messageFeed; // The interaction message feedback
+	MiniMap miniMap; // The minimap the player can use to see their position
 	
 	//Sprites
 	PImage icon, cross, blank, exit, wall, floor, background, playerFront, playerBack, playerLeft, playerRight;
 
+	// The room in which to draw and the player is currently in
 	private Room currentRoom;
 	
 	private TopLeft room1;
@@ -35,14 +36,18 @@ public class Game extends PApplet {
 	private BottomMiddle room8;
 	private BottomRight room9;	
 	
+	// Is the game beaten?
 	private boolean isBeat;
 	
+	// Sets the window to a nonchangable 16:9 ratio
 	public void settings(){
 		size(1600,900);
 	 }
 
-	//Always runs after any constructor
-	//Make sure every gridspace isnt null
+	/**
+	 * Initializes most fields and loads all images to be used.
+	 * Prepares the game elements. Also spawns the player
+	 */
 	public void setup() {
 		miniMap = new MiniMap();
 		messageFeed = new MessageFeed();
@@ -133,6 +138,11 @@ public class Game extends PApplet {
 //		return new Point((int) ((p.getY() + y) / cellSize), (int) ((p.getX() + x) / cellSize));
 //	}
 	
+	/**
+	 * Enables movement through arrow keys or WASD
+	 * Space is used to interact
+	 * Checks the spot the player is currently at or is going to go
+	 */
 	public void keyPressed() {
 		int currentX = (int) player.getX();
 		int currentY = (int) player.getY();
@@ -157,19 +167,19 @@ public class Game extends PApplet {
 			
 		}
 		
-		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W") && !map[currentY - 1][currentX].equals("M") && !isBeat) {
+		if ((keyCode == UP || keyCode == 'W') && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W") && !map[currentY - 1][currentX].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX, currentY - 1);
 			player.setImage(playerBack);
 		}
-		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W") && !map[currentY][currentX - 1].equals("M") && !isBeat) {
+		if ((keyCode == LEFT || keyCode == 'A')&& player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W") && !map[currentY][currentX - 1].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX - 1, currentY);
 			player.setImage(playerRight);
 		}
-		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W") && !map[currentY + 1][currentX].equals("M") && !isBeat) {
+		if ((keyCode == DOWN || keyCode == 'S') && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W") && !map[currentY + 1][currentX].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX, currentY + 1);
 			player.setImage(playerFront);
 		}
-		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W") && !map[currentY][currentX + 1].equals("M") && !isBeat) {
+		if ((keyCode == RIGHT || keyCode == 'D') && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W") && !map[currentY][currentX + 1].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX + 1, currentY);
 			player.setImage(playerLeft);
 		}
@@ -177,6 +187,16 @@ public class Game extends PApplet {
 		checkMapChange();
 	}
 	
+	/**
+	 * The most common action of the player, to open a door.
+	 * Checks if player has the key that is the same color as the door
+	 * If true, removes the door and key and moves player forward
+	 * If false, gives feedback
+	 * @param currentX current x cord of player
+	 * @param currentY current y cord of player
+	 * @param newX the x cord of where the player WANTS to be
+	 * @param newY the y cord of where the player WANTS to be
+	 */
 	private void action(int currentX, int currentY, int newX, int newY) {
 		if(map[newY][newX].equals("&")) {
 			if(currentRoom.getDoor(newX, newY).unlock(player.getInventory())) {
@@ -196,6 +216,10 @@ public class Game extends PApplet {
 		}
 	}
 	
+	/**
+	 * Checks if the player is at the edge of the game scren to change maps
+	 * Checks the currents rooms entrance locations and then changes the current room
+	 */
 	private void checkMapChange() {
 		int previousX = (int) player.getX();
 		int previousY = (int) player.getY();
@@ -208,16 +232,21 @@ public class Game extends PApplet {
 		miniMap.setLocation(currentRoom.getCode());
 	}
 	
+	/*
+	 * Presents a thank you screen to the user
+	 */
 	private void winScreen() {
 		pushMatrix();
 		pushStyle();
 		
+		// Rectangle background for the message
 		rectMode(RADIUS);
 		strokeWeight(10);
 		stroke(0);
 		fill(150);
 		rect(800, 450, 400, 200);
 		
+		// Text message printed on the rectangle
 		fill(0);
 		textSize(50);
 		textAlign(CENTER, CENTER);
@@ -244,16 +273,20 @@ public class Game extends PApplet {
 		location[y][x] = "EMPTY";
 	}
 	
-	//j,i = x,y
+	/*
+	 * Draws all the game elements on the screen such as map, inventory, messagefeed and minimap
+	 */
 	public void draw() {
+		// Draws background art
 		background(background);
 		noStroke();
+		// Draws the box of message feedback of interactions
 		messageFeed.draw(this);
 		
-		// Draws all the playable board for the player such as doors keys and walls
+		// Draws all the main game pieces such as doors keys and walls
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
-				fill(200);
+				// Draws the walls and floors
 				if(map[j][i].equals("W")) {
 					image(wall, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				}
@@ -261,19 +294,22 @@ public class Game extends PApplet {
 					image(floor, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				}
 				
+				// Draws invisible walls
 				if(map[j][i].equals("M")) {
 					image(blank, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				} 
+				// Draws the exit staircase
 				if(map[j][i].equals("#")) {
 					image(exit, 700 + i * cellSize,  j * cellSize, cellSize, cellSize);
 				}
+				// Draws the doors
 				if(map[j][i].equals("&")) {
 					currentRoom.getDoor(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
+				// Draws the keys
 				if(map[j][i].equals("@")) {
 					currentRoom.getKey(i, j).draw(this, 700 + i * cellSize, j * cellSize, cellSize);
 				}
-				
 				
 				//Draws player
 				if(location[j][i].equals("PLAYER")) {
@@ -288,11 +324,16 @@ public class Game extends PApplet {
 		// Draws the players inventory on screen
 		player.getInventory().draw(this);
 		
+		// If the game is won, draws the win message
 		if(isBeat) {
 			winScreen();
 		}
 	}
 	
+	/**
+	 * Sets the room to be drawn to the input room
+	 * @param r input room
+	 */
 	public void setCurrentRoom(Room r) {
 		currentRoom = r;
 	}

@@ -79,7 +79,7 @@ public class MenuScreen extends PApplet {
 			String instructions = "You are an adventurer who found a dungeon and decided to go exploring. After traveling for what seemed like hours, you decided to take a nap."
 					+ " Mysteriously, when you awoke, you didn't seem to be in the same spot you fell asleep at...\n"
 					+ "Armed with a map, your goal is straight forward, to escape the unknown dungeon (go up the stairs).\n"
-					+ "Use the arrow keys to move and spacebar to interact.\n"
+					+ "Use the arrow keys or WASD to move and spacebar to interact.\n"
 					+ "Press anywhere to go back to main menu.";
 			text(instructions, 400, 250, 290, 150);
 			
