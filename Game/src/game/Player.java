@@ -2,12 +2,17 @@ package game;
 
 import java.awt.Point;
 
+import processing.core.PApplet;
+import processing.core.PImage;
+
 public class Player {
 
 	private Point location;
 	private Inventory inventory;
+	private PImage sprite;
 	
-	public Player(int x, int y) {
+	public Player(int x, int y, PImage img) {
+		sprite = img;
 		location = new Point(x, y);
 		inventory = new Inventory();
 	}
@@ -24,6 +29,10 @@ public class Player {
 		return location.getY();
 	}
 	
+	public void setImage(PImage img) {
+		sprite = img;
+	}
+	
 	public void setLocation(Point p) {
 		location = p;
 	}
@@ -34,5 +43,11 @@ public class Player {
 	
 	public Inventory getInventory() {
 		return inventory;
+	}
+	
+	public void draw(PApplet p, int x, int y, int size) {
+		p.pushMatrix();
+		p.image(sprite, x, y, size, size);
+		p.popMatrix();
 	}
 }

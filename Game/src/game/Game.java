@@ -15,11 +15,11 @@ public class Game extends PApplet {
 	private String[][] map;
 	private String[][] location = new String[gameSize][gameSize];
 	Player player;
+	MessageFeed messageFeed;
+	MiniMap miniMap;
 	
 	//Sprites
-	PImage icon, cross, blank, exit;
-	
-	MiniMap miniMap = new MiniMap();
+	PImage icon, cross, blank, exit, wall, floor, background, playerFront, playerBack, playerLeft, playerRight;
 
 	private Room currentRoom;
 	
@@ -33,10 +33,7 @@ public class Game extends PApplet {
 	
 	private BottomLeft room7;
 	private BottomMiddle room8;
-	private BottomRight room9;
-	
-	private String message; 
-	
+	private BottomRight room9;	
 	
 	public void settings(){
 		size(1600,900);
@@ -45,10 +42,20 @@ public class Game extends PApplet {
 	//Always runs after any constructor
 	//Make sure every gridspace isnt null
 	public void setup() {
+		miniMap = new MiniMap();
+		messageFeed = new MessageFeed();
+		
 		icon = loadImage("images/icon.png");
 		exit = loadImage("images/stairs.png");
 		cross = loadImage("images/cross.png");
 		blank = loadImage("images/blank.png");
+		wall = loadImage("images/wall.png");
+		floor = loadImage("images/floor.png");
+		background = loadImage("images/background.jpg");
+		playerFront = loadImage("images/link.png");
+		playerBack = loadImage("images/linkback.png");
+		playerLeft = loadImage("images/linkleft.png");
+		playerRight = loadImage("images/linkright.png");
 		
 		PImage yellowKey = loadImage("images/keys/yellowkey.png");
 		PImage blueKey = loadImage("images/keys/bluekey.png");
@@ -100,12 +107,12 @@ public class Game extends PApplet {
 		currentRoom = room5;
 		map = currentRoom.getRoom();
 		
-		message = "Welcome to the alpha of my game, use arrow keys to move and space to interact";
+		messageFeed.addMessage("Welcome to the alpha of my game.");
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				location[j][i] = "EMPTY";
 				if(map[j][i].equals("X")) {
-					player = new Player(i, j);
+					player = new Player(i, j, playerFront);
 					location[j][i] = "PLAYER";
 				}
 			}
@@ -130,14 +137,14 @@ public class Game extends PApplet {
 		// code 32 is the spacebar
 		if(keyCode == 32) {
 			if(map[currentY][currentX].equals("#")) {
-				message = "You've escaped!";
+				messageFeed.addMessage("You've escaped!");
 			}
 			if(map[currentY][currentX].equals("@")) {
 				if(player.getInventory().addKey(currentRoom.getKey(currentX, currentY))) {
-					message = "You've picked up a " + player.getInventory().getNewest().getColor() + " key!";
+					messageFeed.addMessage("You've picked up a " + player.getInventory().getNewest().getColor() + " key!");
 				}
 				else {
-					message = "Your inventory is full.";
+					messageFeed.addMessage("Your inventory is full.");
 				}
 				
 				map[(int) player.getY()][(int) player.getX()] = "*";
@@ -146,15 +153,19 @@ public class Game extends PApplet {
 		
 		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W") && !map[currentY - 1][currentX].equals("M")) {
 			action(currentX, currentY, currentX, currentY - 1);
+			player.setImage(playerBack);
 		}
 		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W") && !map[currentY][currentX - 1].equals("M")) {
 			action(currentX, currentY, currentX - 1, currentY);
+			player.setImage(playerRight);
 		}
 		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W") && !map[currentY + 1][currentX].equals("M")) {
 			action(currentX, currentY, currentX, currentY + 1);
+			player.setImage(playerFront);
 		}
 		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W") && !map[currentY][currentX + 1].equals("M")) {
 			action(currentX, currentY, currentX + 1, currentY);
+			player.setImage(playerLeft);
 		}
 		
 		checkMapChange();
@@ -164,13 +175,13 @@ public class Game extends PApplet {
 		if(map[newY][newX].equals("&")) {
 			if(currentRoom.getDoor(newX, newY).unlock(player.getInventory())) {
 				map[newY][newX] = "*";
-				message = "You unlock the door.";
+				messageFeed.addMessage("You unlock the door.");
 				
 				player.relocate(newX, newY);
 				relocate(currentX, currentY);
 			}
 			else {
-				message = "You need a " + currentRoom.getDoor(newX, newY).getColor()  + " key!";
+				 messageFeed.addMessage("You need a " + currentRoom.getDoor(newX, newY).getColor()  + " key!");
 			}
 		}
 		else {
@@ -204,8 +215,11 @@ public class Game extends PApplet {
 	
 	//j,i = x,y
 	public void draw() {
-		background(255);
+		background(background);
+		noStroke();
+		messageFeed.draw(this);
 		
+		/*
 		fill(100);
 		rect(40, 90, 620, 220);
 		fill(150);
@@ -214,17 +228,26 @@ public class Game extends PApplet {
 		stroke(0);
 		fill(0);
 		textSize(25);
-		text(message, 60, 100, 580, 100);
+		text(message, 60, 105, 580, 40);
+		text("Hello", 60, 145, 580, 100);
+		text("Hello", 60, 185, 580, 100);
+		text("Hello", 60, 225, 580, 100);
+		text("Hello", 60, 265, 580, 100);
 		noStroke();
+		*/
 		
 		// Draws all the playable board for the player such as doors keys and walls
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				fill(200);
 				if(map[j][i].equals("W")) {
-					fill(100);
-				} 
-				rect(700 + i * cellSize, j * cellSize, cellSize, cellSize);
+					//fill(100);
+					image(wall, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
+				}
+				else {
+					image(floor, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
+					//rect(700 + i * cellSize, j * cellSize, cellSize, cellSize);
+				}
 				
 				if(map[j][i].equals("M")) {
 					image(blank, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
@@ -242,8 +265,7 @@ public class Game extends PApplet {
 				
 				//Draws player
 				if(location[j][i].equals("PLAYER")) {
-					fill(255);
-					ellipse(700 + i * cellSize + 10,  j * cellSize + 10, cellSize - 20, cellSize - 20);
+					player.draw(this, 700 + i * cellSize,  j * cellSize, cellSize);
 				}
 			}
 		}

@@ -8,10 +8,6 @@ public class Key {
 	private String color;
 	private PImage sprite;
 	
-	public Key() {
-		
-	}
-	
 	public Key(String col) {
 		color = col;
 	}

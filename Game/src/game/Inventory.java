@@ -7,6 +7,7 @@ import processing.core.PApplet;
 public class Inventory {
 
 	ArrayList<Key> items;
+	private final int darkgray = 47, lightgray = 106;
 	
 	public Inventory() {
 		 items = new ArrayList<Key>();
@@ -39,11 +40,11 @@ public class Inventory {
 		p.pushStyle();
 	
 		// Draws the background of the inventory bar
-		p.fill(100);
+		p.fill(darkgray, 200);
 		p.rect(500, 350, 150, 525);
 		
 		// Draws the circle cutouts of the inventory bar
-		p.fill(255);
+		p.fill(lightgray, 200);
 		p.ellipseMode(p.RADIUS);
 		p.ellipse(575, 425, 50, 50);
 		p.ellipse(575, 550, 50, 50);

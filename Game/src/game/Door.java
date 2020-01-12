@@ -7,10 +7,6 @@ public class Door {
 	
 	String color;
 	PImage sprite;
-
-	public Door() {
-		
-	}
 	
 	public Door(String col) {
 		color = col;
