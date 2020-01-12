@@ -32,8 +32,7 @@ public class Main {
 //	}
 	
 	public static void main(String[] args) {
-		PApplet.main("game.Game");
-		
+		PApplet.main("game.MenuScreen");
 	}
 
 }

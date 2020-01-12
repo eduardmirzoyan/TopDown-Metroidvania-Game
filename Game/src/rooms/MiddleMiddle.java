@@ -45,7 +45,7 @@ public class MiddleMiddle extends Room {
 		blueDoor = new Door("Blue", bDoor);
 		redDoor = new Door("Red", rDoor);
 		greenDoor = new Door("Green", gDoor);
-		blackDoor = new Door("Black", blDoor);
+		blackDoor = new Door("Dark Skinned", blDoor);
 	}
 	
 	public Point changeRoom(Point p, Game g) {

@@ -1,6 +1,6 @@
 package game;
 /**
- * @version 0.4
+ * @version 1.0
  */
 import processing.core.*;
 import rooms.*;
@@ -35,6 +35,8 @@ public class Game extends PApplet {
 	private BottomMiddle room8;
 	private BottomRight room9;	
 	
+	private boolean isBeat;
+	
 	public void settings(){
 		size(1600,900);
 	 }
@@ -44,6 +46,7 @@ public class Game extends PApplet {
 	public void setup() {
 		miniMap = new MiniMap();
 		messageFeed = new MessageFeed();
+		isBeat = false;
 		
 		icon = loadImage("images/icon.png");
 		exit = loadImage("images/stairs.png");
@@ -107,7 +110,7 @@ public class Game extends PApplet {
 		currentRoom = room5;
 		map = currentRoom.getRoom();
 		
-		messageFeed.addMessage("Welcome to the alpha of my game.");
+		messageFeed.addMessage("You wake up on the cold, stone ground...");
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				location[j][i] = "EMPTY";
@@ -137,7 +140,9 @@ public class Game extends PApplet {
 		// code 32 is the spacebar
 		if(keyCode == 32) {
 			if(map[currentY][currentX].equals("#")) {
-				messageFeed.addMessage("You've escaped!");
+				isBeat = !isBeat;
+				if(isBeat)
+					messageFeed.addMessage("You climb the stairs...");
 			}
 			if(map[currentY][currentX].equals("@")) {
 				if(player.getInventory().addKey(currentRoom.getKey(currentX, currentY))) {
@@ -149,21 +154,22 @@ public class Game extends PApplet {
 				
 				map[(int) player.getY()][(int) player.getX()] = "*";
 			}
+			
 		}
 		
-		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W") && !map[currentY - 1][currentX].equals("M")) {
+		if (keyCode == UP && player.getY() - 1 >= 0 && !map[currentY - 1][currentX].equals("W") && !map[currentY - 1][currentX].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX, currentY - 1);
 			player.setImage(playerBack);
 		}
-		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W") && !map[currentY][currentX - 1].equals("M")) {
+		if (keyCode == LEFT && player.getX() - 1 >= 0 && !map[currentY][currentX - 1].equals("W") && !map[currentY][currentX - 1].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX - 1, currentY);
 			player.setImage(playerRight);
 		}
-		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W") && !map[currentY + 1][currentX].equals("M")) {
+		if (keyCode == DOWN && player.getY() + 1 < gameSize && !map[currentY + 1][currentX].equals("W") && !map[currentY + 1][currentX].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX, currentY + 1);
 			player.setImage(playerFront);
 		}
-		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W") && !map[currentY][currentX + 1].equals("M")) {
+		if (keyCode == RIGHT && player.getX() + 1 < gameSize && !map[currentY][currentX + 1].equals("W") && !map[currentY][currentX + 1].equals("M") && !isBeat) {
 			action(currentX, currentY, currentX + 1, currentY);
 			player.setImage(playerLeft);
 		}
@@ -202,6 +208,31 @@ public class Game extends PApplet {
 		miniMap.setLocation(currentRoom.getCode());
 	}
 	
+	private void winScreen() {
+		pushMatrix();
+		pushStyle();
+		
+		rectMode(RADIUS);
+		strokeWeight(10);
+		stroke(0);
+		fill(150);
+		rect(800, 450, 400, 200);
+		
+		fill(0);
+		textSize(50);
+		textAlign(CENTER, CENTER);
+		text("Congratulations!", 800, 300);
+		textSize(20);
+		text("You have beat the game. I hope it wasn't too hard. This is as far as the current state of the game goes. "
+				+ "Hopefully, you noticed someone of the jokes laid throughout the game. This was a personal project that started from highschool and finished after a yearlong gap. "
+				+ "I tried to add as much creative things that fit the layout of the game. I may or may not return to update and/or polish this game, but my PayPal is always open. "
+				+ "Anyways, thank you for playing my game. This game was entirely imagined and coded by Eduard Mirzoyan", 800, 460, 390, 120);
+		text("Press space to exit.", 800, 600, 390, 120);
+		
+		popStyle();
+		popMatrix();
+	}
+	
 	/**
 	 * Sets hopefully updated location of player and deletes previous location
 	 * @pre new location is different than previous
@@ -219,34 +250,15 @@ public class Game extends PApplet {
 		noStroke();
 		messageFeed.draw(this);
 		
-		/*
-		fill(100);
-		rect(40, 90, 620, 220);
-		fill(150);
-		rect(50, 100, 600, 200);
-		
-		stroke(0);
-		fill(0);
-		textSize(25);
-		text(message, 60, 105, 580, 40);
-		text("Hello", 60, 145, 580, 100);
-		text("Hello", 60, 185, 580, 100);
-		text("Hello", 60, 225, 580, 100);
-		text("Hello", 60, 265, 580, 100);
-		noStroke();
-		*/
-		
 		// Draws all the playable board for the player such as doors keys and walls
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				fill(200);
 				if(map[j][i].equals("W")) {
-					//fill(100);
 					image(wall, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				}
 				else {
 					image(floor, 700 + i * cellSize, j * cellSize, cellSize, cellSize);
-					//rect(700 + i * cellSize, j * cellSize, cellSize, cellSize);
 				}
 				
 				if(map[j][i].equals("M")) {
@@ -275,6 +287,10 @@ public class Game extends PApplet {
 		
 		// Draws the players inventory on screen
 		player.getInventory().draw(this);
+		
+		if(isBeat) {
+			winScreen();
+		}
 	}
 	
 	public void setCurrentRoom(Room r) {

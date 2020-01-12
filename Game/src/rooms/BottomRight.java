@@ -33,7 +33,7 @@ public class BottomRight extends Room {
 		};
 	
 	public BottomRight(PImage bKey) {
-		blackKey = new Key("Black", bKey);
+		blackKey = new Key("Dark Skinned", bKey);
 	}
 	
 	public Point changeRoom(Point p, Game g) {
